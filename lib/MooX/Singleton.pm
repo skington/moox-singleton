@@ -38,7 +38,8 @@ arguments.
 =cut
 
 sub instance {
-    my $class = shift;
+    my $invocant = shift;
+    my $class = ref $invocant || $invocant;
 
     no strict 'refs';
     my $instance = \${"$class\::_instance"};
