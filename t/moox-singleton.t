@@ -1,7 +1,9 @@
 
 use strict;
 use warnings;
-use Test::More tests => 138;
+use Test::More tests => 139;
+
+use Scalar::Util qw(refaddr);
 
 {
     package My::Singleton::A;
@@ -208,6 +210,8 @@ my $aa2 = My::Singleton::A::A2->instance;
 isa_ok($aa2, "My::Singleton::A::A2");
 ok(My::Singleton::A::A2->_has_instance, "instance created");
 is $aa2->attrib, "value", '$aa2->attrib correct';
+my $aa2_again = $aa2->instance;
+is refaddr($aa2_again), refaddr($aa2), 'Creating an instance from an instance creates the same instance';
 
 my $aa22 = My::Singleton::A::A2->instance( attrib => "new value" );
 isa_ok($aa22, "My::Singleton::A::A2");
